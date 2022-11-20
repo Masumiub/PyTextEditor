@@ -14,26 +14,31 @@ class PyTextEditior(QMainWindow):
         self.editor.setFontPointSize(15)
         self.create_tool_bar()
         self.setStyleSheet("color: #000000; font-family:'Arial' ")
-        self.create_menu_bar()
+        #self.create_menu_bar()
+        #self.clr_btn = QPushButton('Save')
 
-    def create_menu_bar(self):
-        menu_bar = QMenuBar()
-
-        file_menu = QMenu('File', self)
-        menu_bar.addMenu(file_menu)
-
-
-        edit_menu = QMenu('Edit', self)
-        menu_bar.addMenu(edit_menu)
-
-        view_menu = QMenu('View', self)
-        menu_bar.addMenu(view_menu)
-
-        self.setMenuBar(menu_bar)
+    # def create_menu_bar(self):
+    #     menu_bar = QMenuBar()
+    #
+    #     file_menu = QMenu('File', self)
+    #     menu_bar.addMenu(file_menu)
+    #
+    #
+    #     edit_menu = QMenu('Edit', self)
+    #     menu_bar.addMenu(edit_menu)
+    #
+    #     view_menu = QMenu('View', self)
+    #     menu_bar.addMenu(view_menu)
+    #
+    #     self.setMenuBar(menu_bar)
 
     def create_tool_bar(self):
         tool_bar = QToolBar()
         #tool_bar.setStyleSheet("background-color: #000000")
+
+        save_action = QAction('Save', self)
+        save_action.triggered.connect(self.save_text)
+        tool_bar.addAction(save_action)
 
         undo_action = QAction('Undo', self)
         undo_action.triggered.connect(self.editor.undo)
@@ -58,6 +63,10 @@ class PyTextEditior(QMainWindow):
         tool_bar.addAction(paste_action)
         self.addToolBar(tool_bar)
 
+    def save_text(self):
+        with open('test.txt', 'w') as f:
+            my_text = self.editor.toPlainText()
+            f.write(my_text)
 
 
 app = QApplication(sys.argv)
